@@ -1,4 +1,4 @@
-/* eslint-env node, mocha */
+/* eslint-env es6, node, mocha */
 const assert = require('chai').assert;
 
 const flag = require('../../lib/flag');
@@ -12,5 +12,21 @@ describe('flag helper', function() {
 
     assert(out instanceof Configurator, 'return value should be an instance of Configurator');
     assert(out.name === name, 'configurator should have correct name property');
+  });
+
+  it('should throw a TypeError if name is something other than a string', function() {
+    assert.throws(() => {
+      flag(Symbol());
+    }, TypeError);
+  })
+
+  it('should throw an Error if it has already been called with an identical name', function() {
+    const name = 'my really cool feature flag';
+
+    flag(name);
+
+    assert.throws(() => {
+      flag(name);
+    }, Error);
   });
 });
