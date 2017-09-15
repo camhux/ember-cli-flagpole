@@ -4,6 +4,11 @@
 module.exports = {
   name: 'ember-cli-flagpole',
 
+  included: function() {
+    this._registry = new require('./lib/-registry')();
+    this.flag = require('./lib/flag')(this._registry);
+  },
+
   config: function(env/* , baseConfig */) {
     const resolve = require('path').resolve;
 
@@ -17,9 +22,7 @@ module.exports = {
     require(resolve(projectRoot, flagpoleConfigPath));
 
     return {
-      featureFlags: require('./lib/-registry').collectFor(env)
+      featureFlags: this._registry.collectFor(env)
     };
   },
-
-  flag: require('./lib/flag')
 };
