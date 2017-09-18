@@ -31,7 +31,10 @@ describe('ember-cli-flagpole', function() {
       }, TypeError);
     })
 
-    it('should throw an Error if it has already been called with an identical name', function() {
+    // FIXME(camhux): Safety feature currently disabled because of Ember CLI's calling of `config`
+    // multiple times per build, ensuring this error is always thrown. Possible to fix using a runtime
+    // token inserted with the flag into the registry, but adds complexity.
+    xit('should throw an Error if it has already been called with an identical name', function() {
       const name = 'my really cool feature flag';
 
       flag(name);
