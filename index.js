@@ -25,7 +25,7 @@ module.exports = {
     this.flagpolePropertyName = options.propertyName || DEFAULT_CFG_PROPERTY;
   },
 
-  config: function(env/* , baseConfig */) {
+  config(env/* , baseConfig */) {
     const resolve = require('path').resolve;
     const existsSync = require('fs').existsSync;
 
