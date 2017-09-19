@@ -6,7 +6,6 @@ const DEFAULT_CFG_PROPERTY = 'featureFlags';
 
 module.exports = {
   name: 'ember-cli-flagpole',
-  isDevelopingAddon() { return true; },
 
   flagpoleConfigPath: DEFAULT_CFG_PATH,
   flagpolePropertyName: DEFAULT_CFG_PROPERTY,

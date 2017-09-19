@@ -83,5 +83,22 @@ describe('ember-cli-flagpole', function() {
         [features.C]: false,
       }, 'prodFlags should be correct');
     });
-  })
+
+    it('should reject via TypeError any .env() calls that pass a value other than a boolean in position 2', function() {
+      assert.throws(() => {
+        flag(features.A)
+          .env(stg, 1);
+      }, TypeError);
+
+      assert.throws(() => {
+        flag(features.A)
+          .env(stg, 'hi');
+      }, TypeError);
+
+      assert.throws(() => {
+        flag(features.A)
+          .env(stg, null);
+      }, TypeError);
+    });
+  });
 });
