@@ -1,10 +1,15 @@
 /* eslint-env node */
 'use strict';
 
+const DEFAULT_CFG_PATH = 'config/flagpole';
+const DEFAULT_CFG_PROPERTY = 'featureFlags';
+
 module.exports = {
   name: 'ember-cli-flagpole',
+  isDevelopingAddon() { return true; },
 
-  flagpoleConfigPath: 'config/flagpole',
+  flagpoleConfigPath: DEFAULT_CFG_PATH,
+  flagpolePropertyName: DEFAULT_CFG_PROPERTY,
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
@@ -15,8 +20,13 @@ module.exports = {
     this.flag = require('./lib/flag')(this._flagRegistry);
   },
 
+  included(app) {
+    const options = app.options['ember-cli-flagpole'] || {};
+    this.flagpoleConfigPath = options.configPath || DEFAULT_CFG_PATH;
+    this.flagpolePropertyName = options.propertyName || DEFAULT_CFG_PROPERTY;
+  },
+
   config: function(env/* , baseConfig */) {
-    // TODO: check options/overrides in this.app.options
     const resolve = require('path').resolve;
     const existsSync = require('fs').existsSync;
 
@@ -30,11 +40,11 @@ module.exports = {
       require(resolved)(this.flag);
 
       return {
-        featureFlags: this._flagRegistry.collectFor(env)
+        [this.flagpolePropertyName]: this._flagRegistry.collectFor(env)
       };
     }
 
-    return { featureFlags: 'DEBUG_NONE' };
+    return { [this.flagpolePropertyName]: 'DEBUG_NONE' };
   },
 
   includedCommands() {
