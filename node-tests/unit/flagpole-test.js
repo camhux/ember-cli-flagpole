@@ -4,6 +4,7 @@ const assert = require('chai').assert;
 const bindFlagHelper = require('../../lib/flag');
 const Registry = require('../../lib/registry');
 const Configurator = require('../../lib/configurator');
+const convertObject = require('../../lib/convert-object');
 
 describe('ember-cli-flagpole', function() {
   let flag;
@@ -179,6 +180,46 @@ describe('ember-cli-flagpole', function() {
       collected = registry.collectFor('staging', { omitFalseFlags: true });
 
       assert.deepEqual(collected, expected, 'falsey per-env keys should have been omitted in output of `collectFor`');
+    });
+  });
+
+  describe('object converter', function() {
+    it('should bridge between an object-literal format and the passed flag helper', function() {
+      const input = {
+        myCoolFeature: {
+          default: true,
+          environments: {
+            production: false
+          }
+        },
+        myUncoolFeature: {
+          default: false,
+          environments: {
+            staging: false,
+            development: true
+          }
+        }
+      };
+
+      const registry = new Registry();
+      const flag = bindFlagHelper(registry);
+
+      convertObject(flag, input);
+
+      assert.deepEqual(registry.collectFor('production'), {
+        myCoolFeature: false,
+        myUncoolFeature: false
+      });
+
+      assert.deepEqual(registry.collectFor('staging'), {
+        myCoolFeature: true,
+        myUncoolFeature: false
+      });
+
+      assert.deepEqual(registry.collectFor('development'), {
+        myCoolFeature: true,
+        myUncoolFeature: true
+      });
     });
   });
 });
