@@ -23,7 +23,7 @@ import config from 'my-app/config/environment';
 console.log(config.featureFlags); // ->
 // in 'development': { myCoolFeature: true, anotherGreatFeature: true }
 // in 'staging': { myCoolFeature: true, anotherGreatFeature: false }
-// in 'production': { myCoolFeature: false, myCoolFeature: false }
+// in 'production': { myCoolFeature: false, anotherGreatFeature: false }
 ```
 
 Part of `ember-cli-flagpole`'s intent is to provide some build-time safety for configuring feature flags "in the large" by making certain expressions that are likely to be mistakes, like duplicate flag declarations or redeclaring a default value for a flag that already has one, build-time errors.
