@@ -15,36 +15,6 @@ describe('ember-cli-flagpole', function() {
     flag = bindFlagHelper(registry);
   });
 
-  describe('flag helper', function() {
-    it('should return a Configurator instance with corresponding name property', function() {
-      const name = 'my cool feature flag';
-
-      const out = flag(name);
-
-      assert(out instanceof Configurator, 'return value should be an instance of Configurator');
-      assert(out.name === name, 'configurator should have correct name property');
-    });
-
-    it('should throw a TypeError if name is something other than a string', function() {
-      assert.throws(() => {
-        flag(Symbol());
-      }, TypeError);
-    })
-
-    // FIXME(camhux): Safety feature currently disabled because of Ember CLI's calling of `config`
-    // multiple times per build, ensuring this error is always thrown. Possible to fix using a runtime
-    // token inserted with the flag into the registry, but adds complexity.
-    xit('should throw an Error if it has already been called with an identical name', function() {
-      const name = 'my really cool feature flag';
-
-      flag(name);
-
-      assert.throws(() => {
-        flag(name);
-      }, Error);
-    });
-  });
-
   describe('base functionality', function() {
     const features = {
       A: 'my cool feature A',
@@ -99,6 +69,117 @@ describe('ember-cli-flagpole', function() {
         flag(features.A)
           .env(stg, null);
       }, TypeError);
+    });
+  });
+
+  describe('flag helper', function() {
+    it('should return a Configurator instance with corresponding name property', function() {
+      const name = 'my cool feature flag';
+
+      const out = flag(name);
+
+      assert(out instanceof Configurator, 'return value should be an instance of Configurator');
+      assert(out.name === name, 'configurator should have correct name property');
+    });
+
+    it('should throw a TypeError if name is something other than a string', function() {
+      assert.throws(() => {
+        flag(Symbol());
+      }, TypeError);
+    })
+
+    // FIXME(camhux): Safety feature currently disabled because of Ember CLI's calling of `config`
+    // multiple times per build, ensuring this error is always thrown. Possible to fix using a runtime
+    // token inserted with the flag into the registry, but adds complexity.
+    xit('should throw an Error if it has already been called with an identical name', function() {
+      const name = 'my really cool feature flag';
+
+      flag(name);
+
+      assert.throws(() => {
+        flag(name);
+      }, Error);
+    });
+  });
+
+  describe('registry', function() {
+    it('should include both true and false flags in `.collectFor()` output when omitFalseFlags is not set to true', function() {
+      const expected = {
+        myCoolFeature: true,
+        myUncoolFeature: false
+      };
+
+      const registry = new Registry();
+
+      // FIXME(camhux): The coupling to this specific object format could be reduced with a stronger abstraction between Registry and other classes.
+      registry.myCoolFeature = {
+        default: true,
+        environments: {}
+      };
+
+      registry.myUncoolFeature = {
+        default: false,
+        environments: {}
+      };
+
+      let collected = registry.collectFor('staging');
+
+      assert.deepEqual(collected, expected, 'falsey default keys should have been preserved in output of `collectFor`');
+
+      registry.myCoolFeature = {
+        environments: {
+          staging: true
+        }
+      };
+
+      registry.myUncoolFeature = {
+        environments: {
+          staging: false
+        }
+      };
+
+      collected = registry.collectFor('staging');
+
+      assert.deepEqual(collected, expected, 'falsey per-env keys should have been preserved in output of `collectFor`');
+    });
+
+    it('should omit the keys of flags whose value is false in `.collectFor()` output when omitFalseFlags is set to true', function() {
+      const expected = {
+        myCoolFeature: true,
+      };
+
+      const registry = new Registry();
+
+      // FIXME(camhux): The coupling to this specific object format could be reduced with a stronger abstraction between Registry and other classes.
+      registry.myCoolFeature = {
+        default: true,
+        environments: {}
+      };
+
+      registry.myUncoolFeature = {
+        default: false,
+        environments: {}
+      };
+
+      let collected = registry.collectFor('staging', { omitFalseFlags: true });
+
+      assert.deepEqual(collected, expected, 'falsey default keys should have been omitted in output of `collectFor`');
+
+      registry.myCoolFeature = {
+        environments: {
+          staging: true
+        }
+      };
+
+      registry.myUncoolFeature = {
+        environments: {
+          staging: false
+        }
+      };
+
+      collected = registry.collectFor('staging', { omitFalseFlags: true });
+
+      assert.deepEqual(collected, expected, 'falsey per-env keys should have been omitted in output of `collectFor`');
     });
   });
 });

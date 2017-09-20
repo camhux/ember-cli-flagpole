@@ -9,6 +9,7 @@ module.exports = {
 
   flagpoleConfigPath: DEFAULT_CFG_PATH,
   flagpolePropertyName: DEFAULT_CFG_PROPERTY,
+  flagpoleOmitFalseFlags: false,
 
   init() {
     this._super.init && this._super.init.apply(this, arguments);
@@ -24,6 +25,7 @@ module.exports = {
     // TODO(camhux): Safely strip `.js` extension from custom config path
     this.flagpoleConfigPath = options.configPath || DEFAULT_CFG_PATH;
     this.flagpolePropertyName = options.propertyName || DEFAULT_CFG_PROPERTY;
+    this.flagpoleOmitFalseFlags = !!options.omitFalseFlags;
   },
 
   config(env/* , baseConfig */) {
@@ -40,7 +42,7 @@ module.exports = {
       require(resolved)(this.flag);
 
       return {
-        [this.flagpolePropertyName]: this._flagRegistry.collectFor(env)
+        [this.flagpolePropertyName]: this._flagRegistry.collectFor(env, { omitFalseFlags: this.omitFalseFlags })
       };
     }
 
