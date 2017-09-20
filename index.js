@@ -14,7 +14,7 @@ module.exports = {
   init() {
     this._super.init && this._super.init.apply(this, arguments);
 
-    const Registry = require('./lib/-registry');
+    const Registry = require('./lib/registry');
 
     this._flagRegistry = new Registry();
     this.flag = require('./lib/flag')(this._flagRegistry);
