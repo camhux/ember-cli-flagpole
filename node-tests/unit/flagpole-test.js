@@ -5,7 +5,6 @@ const bindFlagHelper = require('../../lib/flag');
 const Registry = require('../../lib/registry');
 const Configurator = require('../../lib/configurator');
 
-
 describe('ember-cli-flagpole', function() {
   let flag;
   let registry;
