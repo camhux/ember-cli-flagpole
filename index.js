@@ -53,7 +53,7 @@ module.exports = {
       }
 
       return {
-        [this.flagpolePropertyName]: this._flagRegistry.collectFor(env, { omitFalseFlags: this.omitFalseFlags })
+        [this.flagpolePropertyName]: this._flagRegistry.collectFor(env, { omitFalseFlags: this.flagpoleOmitFalseFlags })
       };
     }
 
