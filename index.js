@@ -2,13 +2,13 @@
 'use strict';
 
 const DEFAULT_CFG_PATH = 'config/flagpole';
-const DEFAULT_CFG_PROPERTY = 'featureFlags';
+const DEFAULT_PROPERTY_NAME = 'featureFlags';
 
 module.exports = {
   name: 'ember-cli-flagpole',
 
   flagpoleConfigPath: DEFAULT_CFG_PATH,
-  flagpolePropertyName: DEFAULT_CFG_PROPERTY,
+  flagpolePropertyName: DEFAULT_PROPERTY_NAME,
   flagpoleOmitFalseFlags: false,
 
   init() {
@@ -24,7 +24,7 @@ module.exports = {
     const options = app.options['ember-cli-flagpole'] || {};
     // TODO(camhux): Safely strip `.js` extension from custom config path
     this.flagpoleConfigPath = options.configPath || DEFAULT_CFG_PATH;
-    this.flagpolePropertyName = options.propertyName || DEFAULT_CFG_PROPERTY;
+    this.flagpolePropertyName = options.propertyName || DEFAULT_PROPERTY_NAME;
     this.flagpoleOmitFalseFlags = !!options.omitFalseFlags;
   },
 
