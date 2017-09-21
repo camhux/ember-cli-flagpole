@@ -16,7 +16,8 @@
     "build": "ember build",
     "start": "ember server",
     "test": "mocha \"node-tests/**/*-test.js\"",
-    "test:watch": "mocha -w \"node-tests/**/*-test.js\""
+    "test:watch": "mocha -w \"node-tests/**/*-test.js\"",
+    "test:acceptance": "./acceptance-harness.sh"
   },
   "dependencies": {
     "ember-cli-babel": "^6.3.0"
