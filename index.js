@@ -22,9 +22,15 @@ module.exports = {
 
   included(app) {
     const options = app.options['ember-cli-flagpole'] || {};
-    // TODO(camhux): Safely strip `.js` extension from custom config path
-    this.flagpoleConfigPath = options.configPath || DEFAULT_CFG_PATH;
-    this.flagpolePropertyName = options.propertyName || DEFAULT_PROPERTY_NAME;
+
+    if (options.configPath) {
+      this.flagpoleConfigPath = options.configPath.replace(/\.js$/, '');
+    }
+
+    if (options.propertyName) {
+      this.flagpolePropertyName = options.propertyName;
+    }
+
     this.flagpoleOmitFalseFlags = !!options.omitFalseFlags;
   },
 
@@ -52,8 +58,12 @@ module.exports = {
         default: throw new TypeError('flagpole.js must export either a function or an object');
       }
 
+      const flagSet = this._flagRegistry.collectFor(env, {
+        omitFalseFlags: this.flagpoleOmitFalseFlags
+      });
+
       return {
-        [this.flagpolePropertyName]: this._flagRegistry.collectFor(env, { omitFalseFlags: this.flagpoleOmitFalseFlags })
+        [this.flagpolePropertyName]: flagSet
       };
     }
 
