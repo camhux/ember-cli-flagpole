@@ -1,6 +1,8 @@
 /* eslint-env node */
 'use strict';
 
+const isTestingOmitFalseFlags = process.env['FLAGPOLE_ACCEPTANCE_CASE'] === 'omit-false';
+
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'dummy',
@@ -21,7 +23,9 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-    }
+    },
+
+    isTestingOmitFalseFlags,
   };
 
   if (environment === 'development') {
