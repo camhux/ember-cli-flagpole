@@ -34,7 +34,6 @@ module.exports = {
 
     // TODO: support use as a nested addon?
     const projectRoot = this.project.root;
-    // TODO: check for custom path to flagpole.js
 
     const resolved = resolve(projectRoot, this.flagpoleConfigPath);
 
