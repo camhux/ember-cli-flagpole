@@ -16,7 +16,30 @@ module.exports = function(flag) {
     .env('staging', false)
     .env('production', false);
 };
+```
+<a id="object-example"></a>
+or, an alternate object syntax...
+```javascript
+// config/flagpole.js
+module.exports = {
+  myCoolFeature: {
+    default: true,
+    environments: {
+      production: false
+    }
+  },
 
+  anotherGreatFeature: {
+    environments: {
+      development: true,
+      staging: false,
+      production: false
+    }
+  }
+};
+```
+
+```javascript
 // then, at runtime...
 import config from 'my-app/config/environment';
 
@@ -42,16 +65,36 @@ But, if you _do_ fit either of those descriptions, you may feel a need for a mec
 A default blueprint is included that generates the `config/flagpole.js` file for you.
 
 ## Usage
-Flagpole looks for a file named `flagpole.js` (default path: `config/flagpole`). This file should export a single function that receives one argument: `flag`. This is a helper function passed in by Flagpole at build time, allowing you to declare flags in a chained, declarative style. (See [example](#example) above).
+Flagpole looks for a file named `flagpole.js` (default path: `config/flagpole`). This file should export either a function that accepts the `flag` helper as its sole argument, or an object that adheres to a specific structure.
 
-### `flag(name: string): <chain>`
+### The `flag` syntax
+If `flagpole.js` exports a function, flagpole will call this function (passing the `flag` helper) to configure your set of feature flags. `flag` is helper function passed in by Flagpole at build time, allowing you to declare flags in a chained, declarative style. (See [example](#example) above).
+
+#### `flag(name: string): <chain>`
 You should call `flag` once per feature flag. It only accepts one argument, which must be a non-empty string to be used as the key for the feature flag's eventual value. It returns an object that exposes chainable methods for configuring the named flag's value across different environments.
 
-### `<chain>.default(setting: bool): <chain>`
+#### `<chain>.default(setting: bool): <chain>`
 `default` sets the default/base value for the feature flag represented by the chaining object. The default value takes effect for any environment which has not been more granularly configured using `.env()`.
 
-### `<chain>.env(environment: string, setting: bool): <chain>`
+#### `<chain>.env(environment: string, setting: bool): <chain>`
 `env` configures a feature flag for a single environment, named by its first argument, taking the value of the second argument (which must **strictly** be a Boolean).
+
+### The object syntax
+If `flagpole.js` exports an object, flagpole will attempt to read the structure and contents of this object to configure your set of feature flags.
+
+The basic shape is:
+```javascript
+{
+  [featureFlagName: string]: {
+    default?: boolean,
+    environments?: {
+      [environmentName]: boolean
+    }
+  }
+}
+```
+
+See an [example usage](#object-example) above.
 
 ## Addon options
 Some features of `ember-cli-flagpole` can be configured by passing options to `EmberApp` in your `ember-cli-build.js`.
