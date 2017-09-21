@@ -1,6 +1,7 @@
 #!/bin/sh
 set -ex
 
-for testcase in {function-config,object-config,omit-false}; do
-  env FLAGPOLE_ACCEPTANCE_CASE="$testcase" ember test
+for testcase in ./tests/acceptance-cases/*.js; do
+  casefile=$(basename $testcase)
+  env FLAGPOLE_ACCEPTANCE_CASE="${casefile%%.js}" ember test
 done
