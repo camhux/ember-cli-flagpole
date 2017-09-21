@@ -44,7 +44,7 @@ A default blueprint is included that generates the `config/flagpole.js` file for
 ## Usage
 Flagpole looks for a file named `flagpole.js` (default path: `config/flagpole`). This file should export a single function that receives one argument: `flag`. This is a helper function passed in by Flagpole at build time, allowing you to declare flags in a chained, declarative style. (See [example](#example) above).
 
-### `flag(label: string): <chain>`
+### `flag(name: string): <chain>`
 You should call `flag` once per feature flag. It only accepts one argument, which must be a non-empty string to be used as the key for the feature flag's eventual value. It returns an object that exposes chainable methods for configuring the named flag's value across different environments.
 
 ### `<chain>.default(setting: bool): <chain>`

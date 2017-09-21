@@ -1,19 +1,24 @@
 /* eslint-env node */
 'use strict';
 
+// (camhux): This build file will switch between reading different dummy flagpole configs in order to
+// perform acceptance tests in a variety of addon-config situations (i.e., modulating build parameters).
+
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
-  let app = new EmberAddon(defaults, {
-    // Add options here
-  });
+  let flagpoleAcceptanceCase = process.env['FLAGPOLE_ACCEPTANCE_CASE'];
+  if (!flagpoleAcceptanceCase) {
+    flagpoleAcceptanceCase = 'function-config';
+  }
 
-  /*
-    This build file specifies the options for the dummy test app of this
-    addon, located in `/tests/dummy`
-    This build file does *not* influence how the addon or the app using it
-    behave. You most likely want to be modifying `./index.js` or app's build file
-  */
+  const options = require(`./tests/acceptance-cases/${flagpoleAcceptanceCase}`).options;
+  let app = new EmberAddon(defaults, {
+    'ember-cli-flagpole': {
+      configPath: options.configPath,
+      omitFalseFlags: options.omitFalseFlags
+    }
+  });
 
   return app.toTree();
 };

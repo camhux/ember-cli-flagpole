@@ -14,7 +14,7 @@ module.exports = {
   init() {
     this._super.init && this._super.init.apply(this, arguments);
 
-    const Registry = require('./lib/-registry');
+    const Registry = require('./lib/registry');
 
     this._flagRegistry = new Registry();
     this.flag = require('./lib/flag')(this._flagRegistry);
@@ -34,19 +34,30 @@ module.exports = {
 
     // TODO: support use as a nested addon?
     const projectRoot = this.project.root;
-    // TODO: check for custom path to flagpole.js
 
     const resolved = resolve(projectRoot, this.flagpoleConfigPath);
 
     if (existsSync(resolved + '.js')) {
-      require(resolved)(this.flag);
+      const flagpoleConfig = require(resolved);
+
+      switch (typeof flagpoleConfig) {
+        case 'object': {
+          require('./lib/convert-object')(this.flag, flagpoleConfig);
+          break;
+        }
+        case 'function': {
+          flagpoleConfig(this.flag);
+          break;
+        }
+        default: throw new TypeError('flagpole.js must export either a function or an object');
+      }
 
       return {
-        [this.flagpolePropertyName]: this._flagRegistry.collectFor(env, { omitFalseFlags: this.omitFalseFlags })
+        [this.flagpolePropertyName]: this._flagRegistry.collectFor(env, { omitFalseFlags: this.flagpoleOmitFalseFlags })
       };
     }
 
-    return { [this.flagpolePropertyName]: 'DEBUG_NONE' };
+    return {};
   },
 
   includedCommands() {
