@@ -39,6 +39,7 @@ module.exports = function(flag) {
 ```
 <a id="object-example"></a>
 or, an alternate object syntax...
+
 ```javascript
 // config/flagpole.js
 module.exports = {
