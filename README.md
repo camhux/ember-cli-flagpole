@@ -153,6 +153,7 @@ module.exports = function(defaults) {
 A unit test suite is included:
 * `npm test` - runs tests using Mocha/Chai
 * `npm test:watch` - runs tests using Mocha/Chai and reruns tests automatically when files change
+* `npm test:acceptance` - runs a `sh` script to build the dummy application using a variety of flagpole configs to ensure that the correct `config/environment` results in each build.
 
 ### Building
 
