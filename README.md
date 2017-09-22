@@ -1,6 +1,26 @@
-# ember-cli-flagpole
+# ember-cli-flagpole 🎏
 
-🎏 This addon provides a harness for expressing feature flags for an Ember application in an opinionated way. It is especially useful for configuring feature flags per-environment, along with default values for all environments.
+<!-- TOC depthFrom:2 -->
+
+- [Introduction](#introduction)
+- [Installation](#installation)
+- [Why do I need this?](#why-do-i-need-this)
+- [Usage](#usage)
+    - [The `flag` syntax](#the-flag-syntax)
+        - [`flag(name: string): <chain>`](#flagname-string-chain)
+        - [`<chain>.default(setting: bool): <chain>`](#chaindefaultsetting-bool-chain)
+        - [`<chain>.env(environment: string, setting: bool): <chain>`](#chainenvenvironment-string-setting-bool-chain)
+    - [The object syntax](#the-object-syntax)
+- [Addon options](#addon-options)
+- [Developing](#developing)
+    - [Running Tests](#running-tests)
+    - [Building](#building)
+
+<!-- /TOC -->
+
+## Introduction
+
+This addon provides a harness for expressing feature flags for an Ember application in an opinionated way. It is especially useful for configuring feature flags per-environment, along with default values for all environments.
 
 <a id="example"></a>
 
