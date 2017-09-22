@@ -38,9 +38,8 @@ module.exports = {
   }
 };
 ```
-
+then, at runtime...
 ```javascript
-// then, at runtime...
 import config from 'my-app/config/environment';
 
 console.log(config.featureFlags); // ->
