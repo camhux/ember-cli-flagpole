@@ -88,6 +88,8 @@ But, if you _do_ fit either of those descriptions, you may feel a need for a mec
 ## Usage
 Flagpole looks for a file named `flagpole.js` (default path: `config/flagpole`). This file should export either a function that accepts the `flag` helper as its sole argument, or an object that adheres to a specific structure.
 
+In either syntax, if a `default` setting is omitted, the flag will default to `false` for any environments that are not more granularly configured.
+
 ### The `flag` syntax
 If `flagpole.js` exports a function, flagpole will call this function (passing the `flag` helper) to configure your set of feature flags. `flag` is helper function passed in by Flagpole at build time, allowing you to declare flags in a chained, declarative style. (See [example](#example) above).
 
