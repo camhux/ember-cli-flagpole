@@ -51,18 +51,19 @@ console.log(config.featureFlags); // ->
 
 Part of `ember-cli-flagpole`'s intent is to provide some build-time safety for configuring feature flags "in the large" by making certain expressions that are likely to be mistakes, like duplicate flag declarations or redeclaring a default value for a flag that already has one, build-time errors.
 
+## Installation
+
+* `ember install ember-cli-flagpole`
+
+A default blueprint is included that generates the `config/flagpole.js` file for you.
+
+
 ## Why do I need this?
 Chances are good that you _don't_, in case you don't have very many feature flags or you don't need to manage feature flags for mixes of different environments.
 
 But, if you _do_ fit either of those descriptions, you may feel a need for a mechanism to configure per-environment feature flags that's more succinct than passing the config object through a bunch of conditional checks and writes. You may have already written some custom glue code to enable default settings. You may have concocted a custom object format for configuring flags more conveniently.
 
 `ember-cli-flagpole` is designed to make those cases fit with the Ember philosophy of "convention over configuration". There's no escaping the actual configuration of flags, but you shouldn't have to configure _how_ those flags are transformed to be appropriate per build environment. `ember-cli-flagpole` helps to centralize where your flags are declared and offers a simple mechanism for declaring them.
-
-## Installation
-
-* `ember install ember-cli-flagpole`
-
-A default blueprint is included that generates the `config/flagpole.js` file for you.
 
 ## Usage
 Flagpole looks for a file named `flagpole.js` (default path: `config/flagpole`). This file should export either a function that accepts the `flag` helper as its sole argument, or an object that adheres to a specific structure.
