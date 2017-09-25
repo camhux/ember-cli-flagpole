@@ -69,10 +69,4 @@ module.exports = {
 
     return {};
   },
-
-  includedCommands() {
-    return {
-      'audit-flags': require('./lib/commands/audit-flags'),
-    };
-  },
 };
