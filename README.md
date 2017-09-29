@@ -75,6 +75,8 @@ Part of `ember-cli-flagpole`'s intent is to provide some build-time safety for c
 
 ## Installation
 
+**Note that this addon currently requires Node 6+** since I wrote everything using ES2015 syntax without thinking twice... 😰
+
 * `ember install ember-cli-flagpole`
 
 A default blueprint is included that generates the `config/flagpole.js` file for you.
