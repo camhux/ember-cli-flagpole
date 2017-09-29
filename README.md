@@ -71,6 +71,8 @@ console.log(config.featureFlags); // ->
 
 Part of `ember-cli-flagpole`'s intent is to provide some build-time safety for configuring feature flags "in the large" by making certain expressions that are likely to be mistakes, like duplicate flag declarations or redeclaring a default value for a flag that already has one, build-time errors.
 
+`ember-cli-flagpole` is orthogonal to, and plays nicely with, [ember-feature-flags](https://github.com/kategengler/ember-feature-flags), which provides a nice way to check against feature flags in your application at runtime. Go check it out!
+
 ## Installation
 
 * `ember install ember-cli-flagpole`
