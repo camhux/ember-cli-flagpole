@@ -20,7 +20,7 @@
 
 ## Introduction
 
-This addon provides a harness for expressing feature flags for an Ember application in an opinionated way. It is especially useful for configuring feature flags per-environment, along with default values for all environments.
+This addon provides a harness for expressing feature flags for an Ember application in an opinionated way. It is especially useful for configuring feature flags per-environment, along with default values for all environments. It operates completely at build-time by modulating the environment config that's included in your built project.
 
 <a id="example"></a>
 
